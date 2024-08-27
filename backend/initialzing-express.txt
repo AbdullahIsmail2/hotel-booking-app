@@ -1,0 +1,41 @@
+Topics included:
+--> Setting up basic express.js application
+--> What is nodemon
+
+The following code is how we set up a basic express.js application
+
+import express from "express";
+import cors from "cors";
+import "dotenv/config";
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors())
+
+
+Breakdown of some important lines:
+
+const app = express()
+--> This creates an instance of an Express application
+--> 'app' is what will be used to define routes, middleware and other configurations
+
+app.use(express.json())
+--> This middleware function is used to parse incoming requests
+--> It automatically parses JSON data from the request body and makes it available under 'req.body'
+--> If app.use(express.json()) was to be left out, req.body would be undefined if you did not manually parse the data
+
+
+app.use(cors())
+--> CORS stands for Cross-Origin Resource Sharing
+--> app.use(cors()) enables our application to handle Cross-Origin Resource Sharing
+--> This allows your server to accept requests from different domains
+--> This is essential for APIs that would be consumed by applications hosted on different origins 
+
+
+
+///// Nodemon
+
+Nodemon is a development tool for Node.js applications that automaticall automatically restarts the server whenever changes are detected in the source files
+
+Its useful during development for improving efficiency and productivity
