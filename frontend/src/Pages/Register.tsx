@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
+import { postNewUser } from "../api";
+import { useMutation } from "@tanstack/react-query";
 
-type RegisterFormData = {
+export type RegisterFormData = {
 	firstName: string;
 	lastName: string;
 	email: string;
@@ -15,8 +17,19 @@ export default function Register() {
 		formState: { errors },
 	} = useForm<RegisterFormData>();
 
+	const mutation = useMutation({
+		mutationFn: postNewUser,
+		onSuccess: () => {
+			console.log("registration successful");
+		},
+		onError: (error: Error) => {
+			console.log(error.message);
+		},
+	});
+
 	const onSubmit = handleSubmit((data) => {
-		console.log(data);
+		console.log(data)
+		mutation.mutate(data);
 	});
 
 	return (
@@ -70,7 +83,7 @@ export default function Register() {
 						},
 					})}
 				/>
-      	{errors.password && (
+				{errors.password && (
 					<span className="text-red-500">{errors.password.message}</span>
 				)}
 			</label>
@@ -80,14 +93,14 @@ export default function Register() {
 					type="password"
 					className="border border-gray-700 rounded w-full py-1 px-2 font-normal md:mt-2"
 					{...register("confirmPassword", {
-						validate: (val) => {
-							if (!val) return "This field is required";
-							if (watch("password") !== val)
+						validate: (value) => {
+							if (!value) return "This field is required";
+							if (watch("password") !== value)
 								return "Your passwords do not match";
 						},
 					})}
 				/>
-        {errors.confirmPassword && (
+				{errors.confirmPassword && (
 					<span className="text-red-500">{errors.confirmPassword.message}</span>
 				)}
 			</label>
