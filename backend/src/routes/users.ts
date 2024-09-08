@@ -23,8 +23,9 @@ router.post(
 
 		try {
 			const user = await User.findOne({ email: req.body.email });
-
+			
 			if (user) return res.status(400).json({ message: "User already exists" });
+			// if no user with such email exists you get null back from mongo
 
 			const newUser = new User(req.body);
 			await newUser.save();
