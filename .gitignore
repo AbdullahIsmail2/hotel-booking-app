@@ -1,6 +1,16 @@
-good-to-know.txt
-initialzing-express.txt
+Revision notes for key concepts
+
 auth.txt
 express-validator.txt
+bcrypt.txt
+react-query.txt
+react-hook-form.txt
+context.txt
+initialzing-express.txt
+fetch.txt
+good-to-know.txt
+
+.gitignore
 
 /backend/.env
+/frontend/.env
