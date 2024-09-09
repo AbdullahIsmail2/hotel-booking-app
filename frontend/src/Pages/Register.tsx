@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { postNewUser } from "../api";
 import { useMutation } from "@tanstack/react-query";
+import { useAppContext } from "../Contexts/AppContext";
+import { useNavigate } from "react-router-dom";
 
 export type RegisterFormData = {
 	firstName: string;
@@ -10,6 +12,9 @@ export type RegisterFormData = {
 	confirmPassword: string;
 };
 export default function Register() {
+	const navigate = useNavigate();
+	const { showToast } = useAppContext();
+
 	const {
 		register,
 		watch,
@@ -20,15 +25,17 @@ export default function Register() {
 	const mutation = useMutation({
 		mutationFn: postNewUser,
 		onSuccess: () => {
-			console.log("registration successful");
+			showToast({ message: "Registration Successful", type: "SUCCESS" });
+			navigate("/");
 		},
 		onError: (error: Error) => {
 			console.log(error.message);
+			showToast({ message: error.message, type: "ERROR" });
 		},
 	});
 
 	const onSubmit = handleSubmit((data) => {
-		console.log(data)
+		console.log(data);
 		mutation.mutate(data);
 	});
 
@@ -41,7 +48,13 @@ export default function Register() {
 					<input
 						type="text"
 						className="border border-gray-700 rounded w-full py-1 px-2 font-normal md:mt-2"
-						{...register("firstName", { required: "First Name is Required" })}
+						{...register("firstName", {
+							required: "First Name is Required",
+							pattern: {
+								value: /^[A-Za-z]+$/i, // regex for letters only,
+								message: "First Name should contain letters only",
+							},
+						})}
 					/>
 					{errors.firstName && (
 						<span className="text-red-500">{errors.firstName.message}</span>
@@ -52,7 +65,13 @@ export default function Register() {
 					<input
 						type="text"
 						className="border border-gray-700 rounded w-full py-1 px-2 font-normal md:mt-2"
-						{...register("lastName", { required: "Last Name is Required" })}
+						{...register("lastName", {
+							required: "Last Name is Required",
+							pattern: {
+								value: /^[A-Za-z]+$/i, // regex for letters only,
+								message: "Last Name should contain letters only",
+							},
+						})}
 					/>
 					{errors.lastName && (
 						<span className="text-red-500">{errors.lastName.message}</span>
