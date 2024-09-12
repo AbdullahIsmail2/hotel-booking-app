@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
 import { check, validationResult } from "express-validator";
+import { verifyToken } from "../middleware/auth";
 
 const router = express.Router();
 
@@ -35,6 +36,8 @@ router.post(
 				return res.status(400).json({ message: "Invalid Credentials" });
 			}
 
+			// Token And Cookie For Authentication
+
 			const token = jwt.sign(
 				{ userId: user.id },
 				process.env.JWT_SECRET_KEY as string,
@@ -55,5 +58,13 @@ router.post(
 		}
 	}
 );
+
+
+router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
+	res.status(200).send({userId: req.userId})
+	// if token is valid through check from verifyToken middleware 200 ok will be sent
+})
+ 
+
 
 export default router;
