@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { postNewUser } from "../api";
 import { useMutation } from "@tanstack/react-query";
-import { useAppContext } from "../Contexts/AppContext";
+import { useAppContext } from "../Contexts/useAppContext";
 import { useNavigate } from "react-router-dom";
 
 export type RegisterFormData = {

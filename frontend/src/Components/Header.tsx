@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useAppContext } from "../Contexts/AppContext";
+import { useAppContext } from "../Contexts/useAppContext";
 
 export default function Header() {
 	const { isLoggedIn } = useAppContext();
