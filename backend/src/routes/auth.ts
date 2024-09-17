@@ -51,7 +51,6 @@ router.post(
 			});
 
 			res.status(200).json({ userId: user._id });
-      
 		} catch (error) {
 			console.log(error);
 			res.status(500).json({ message: "Something went wrong" });
@@ -59,12 +58,15 @@ router.post(
 	}
 );
 
-
 router.get("/validate-token", verifyToken, (req: Request, res: Response) => {
-	res.status(200).send({userId: req.userId})
+	res.status(200).send({ userId: req.userId });
 	// if token is valid through check from verifyToken middleware 200 ok will be sent
-})
- 
+});
 
+router.post("/logout", (req: Request, res: Response) => {
+	res.cookie("auth_token", "", {
+		expires: new Date(0),
+	});
+});
 
 export default router;
