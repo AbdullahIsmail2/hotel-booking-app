@@ -11,6 +11,7 @@ export type RegisterFormData = {
 	password: string;
 	confirmPassword: string;
 };
+
 export default function Register() {
 	const navigate = useNavigate();
 	const { showToast } = useAppContext();
@@ -123,7 +124,7 @@ export default function Register() {
 					<span className="text-red-500">{errors.confirmPassword.message}</span>
 				)}
 			</label>
-			<span className="mt">
+			<span className="">
 				<button
 					type="submit"
 					className="bg-blue-600 text-white p-2 font-bold
@@ -131,12 +132,7 @@ export default function Register() {
 				>
 					Create Account
 				</button>
-				<button
-					className="border-blue-500 border ml-5 bg-white font-black p-2"
-					onClick={() => console.log(errors)}
-				>
-					Log Errors
-				</button>
+			
 			</span>
 		</form>
 	);
