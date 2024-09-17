@@ -1,7 +1,9 @@
 import { RegisterFormData } from "./Pages/Register";
+import { SignInFormType } from "./Pages/SignIn";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// api request for registering new user
 export const postNewUser = async (newUserObject: RegisterFormData) => {
 	const response = await fetch(`${API_BASE_URL}/api/user/register`, {
 		method: "POST",
@@ -18,17 +20,36 @@ export const postNewUser = async (newUserObject: RegisterFormData) => {
 	return responseBody;
 };
 
-export const validateToken = async () => {
-	const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
-		credentials: "include"
-	})
+// api request for logging in with existing user
 
-	const responseBody = await response.json()
+export const signIn = async (userObject: SignInFormType) => {
+	const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+		method: "POST",
+		credentials: "include",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify(userObject),
+	});
 
-	if(!response.ok) {
-		throw new Error('Token invalid')
+	const responseBody = await response.json();
+
+	if (!response.ok) {
+		throw new Error(responseBody.message);
 	}
 
-	return responseBody
-}
+	return responseBody;
+};
 
+// api request for validating token
+export const validateToken = async () => {
+	const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
+		credentials: "include",
+	});
+
+	const responseBody = await response.json();
+
+	if (!response.ok) {
+		throw new Error("Token invalid");
+	}
+
+	return responseBody;
+};

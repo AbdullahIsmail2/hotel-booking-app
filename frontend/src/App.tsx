@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Register from "./Pages/Register";
+import SignIn from "./Pages/SignIn";
 
 function App() {
 	return (
@@ -11,6 +12,14 @@ function App() {
 					element={
 						<Layout>
 							<p>Home Page</p>
+						</Layout>
+					}
+				/>
+				<Route
+					path="/sign-in"
+					element={
+						<Layout>
+							<SignIn />
 						</Layout>
 					}
 				/>

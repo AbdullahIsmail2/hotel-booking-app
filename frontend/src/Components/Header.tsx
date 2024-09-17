@@ -20,7 +20,7 @@ export default function Header() {
 						</>
 					) : (
 						<Link
-							to="/register"
+							to="/sign-in"
 							className="flex bg-white items-center text-blue-600 px-3 font-bold hover:bg-gray-100"
 						>
 							Sign In
