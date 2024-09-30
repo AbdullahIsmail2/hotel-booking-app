@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { signIn } from "../api";
 import { useAppContext } from "../Contexts/useAppContext";
@@ -10,6 +10,7 @@ export type SignInFormType = {
 };
 
 export default function SignIn() {
+	const queryClient = useQueryClient();
 	const {
 		register,
 		handleSubmit,
@@ -21,7 +22,8 @@ export default function SignIn() {
 
 	const mutation = useMutation({
 		mutationFn: signIn,
-		onSuccess: () => {
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: ["validateToken"] });
 			showToast({
 				message: "Login Successful! ",
 				type: "SUCCESS",
@@ -75,7 +77,7 @@ export default function SignIn() {
 				)}
 			</label>
 
-      <span className="">
+			<span className="">
 				<button
 					type="submit"
 					className="bg-blue-600 text-white p-2 font-bold
@@ -83,9 +85,7 @@ export default function SignIn() {
 				>
 					Sign In
 				</button>
-			
 			</span>
-	
 		</form>
 	);
 }
