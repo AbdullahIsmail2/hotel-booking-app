@@ -39,6 +39,23 @@ export const signIn = async (userObject: SignInFormType) => {
 	return responseBody;
 };
 
+
+// api request for signing out 
+export  const signOut = async () => {
+	const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+		method: "POST",
+		credentials: "include",
+	});
+
+	if(!response.ok) {
+		throw new Error('error during sign out')
+	}
+
+
+
+};
+
+
 // api request for validating token
 export const validateToken = async () => {
 	const response = await fetch(`${API_BASE_URL}/api/auth/validate-token`, {
@@ -53,3 +70,4 @@ export const validateToken = async () => {
 
 	return responseBody;
 };
+
