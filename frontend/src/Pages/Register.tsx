@@ -3,6 +3,7 @@ import { postNewUser } from "../api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppContext } from "../Contexts/useAppContext";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export type RegisterFormData = {
 	firstName: string;
@@ -126,7 +127,13 @@ export default function Register() {
 					<span className="text-red-500">{errors.confirmPassword.message}</span>
 				)}
 			</label>
-			<span className="">
+			<span className="flex items-center justify-between mt-5">
+				<span className="">
+					Already Registered?{" "}
+					<Link className="underline" to="/sign-in">
+						Sign In Here
+					</Link>
+				</span>
 				<button
 					type="submit"
 					className="bg-blue-600 text-white p-2 font-bold
