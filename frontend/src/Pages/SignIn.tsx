@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { signIn } from "../api";
 import { useAppContext } from "../Contexts/useAppContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export type SignInFormType = {
 	email: string;
@@ -77,13 +77,19 @@ export default function SignIn() {
 				)}
 			</label>
 
-			<span className="">
+			<span className="flex items-center justify-between mt-5">
+				<span className="">
+					Not registered?{" "}
+					<Link className="underline" to="/register">
+						Create an account here
+					</Link>
+				</span>
 				<button
 					type="submit"
 					className="bg-blue-600 text-white p-2 font-bold
            hover:bg-blue-500 text-xl"
 				>
-					Sign In
+					Login
 				</button>
 			</span>
 		</form>
