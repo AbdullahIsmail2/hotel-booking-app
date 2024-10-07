@@ -1,7 +1,7 @@
 import { RegisterFormData } from "./Pages/Register";
 import { SignInFormType } from "./Pages/SignIn";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 // api request for registering new user
 export const postNewUser = async (newUserObject: RegisterFormData) => {
