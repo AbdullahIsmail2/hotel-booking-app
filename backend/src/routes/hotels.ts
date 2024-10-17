@@ -8,7 +8,7 @@ const router = express.Router();
 router.get("/search", async (req: Request, res: Response) => {
 	try {
 		// how many hotels a page of the pagination will hold
-		const pageSize = 10;
+		const pageSize = 5;
 
 		// pageNumber is chosen by user, it we will be sent from client-side
 		const pageNumber = parseInt(
