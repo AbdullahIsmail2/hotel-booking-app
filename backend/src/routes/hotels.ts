@@ -7,6 +7,22 @@ const router = express.Router();
 // /api/hotels/search
 router.get("/search", async (req: Request, res: Response) => {
 	try {
+		const query = constructSearchQuery(req.query);
+
+		let sortOptions = {};
+
+		switch (req.query.sortOption) {
+			case "starRating":
+				sortOptions = { starRating: -1 };
+				break;
+			case "pricePerNightAsc":
+				sortOptions = { pricePerNight: 1 };
+				break;
+			case "pricePerNightDesc":
+				sortOptions = { pricePerNight: -1 };
+				break;
+		}
+
 		// how many hotels a page of the pagination will hold
 		const pageSize = 5;
 
@@ -19,7 +35,10 @@ router.get("/search", async (req: Request, res: Response) => {
 		const skip = (pageNumber - 1) * pageSize;
 
 		// our query to get the hotels based on the page
-		const hotels = await Hotel.find().skip(skip).limit(pageSize);
+		const hotels = await Hotel.find(query)
+			.sort(sortOptions)
+			.skip(skip)
+			.limit(pageSize);
 
 		const total = await Hotel.countDocuments();
 
@@ -39,5 +58,65 @@ router.get("/search", async (req: Request, res: Response) => {
 	}
 });
 
+export default router;
 
-export default router
+const constructSearchQuery = (queryParams: any) => {
+	let constructedQuery: any = {};
+
+	// Search Input Filters
+
+	if (queryParams.destination) {
+		constructedQuery.$or = [
+			{ city: new RegExp(queryParams.destination, "i") },
+			{ country: new RegExp(queryParams.destination, "i") },
+		];
+	}
+
+	if (queryParams.adultCount) {
+		constructedQuery.adultCount = {
+			$gte: parseInt(queryParams.adultCount),
+		};
+	}
+
+	if (queryParams.childCount) {
+		constructedQuery.childCount = {
+			$gte: parseInt(queryParams.childCount),
+		};
+	}
+
+	// Checkbox Filters
+
+	if (queryParams.facilities) {
+		constructedQuery.facilities = {
+			$all: Array.isArray(queryParams.facilities)
+				? queryParams.facilities
+				: [queryParams.facilities],
+		};
+	}
+
+	if (queryParams.types) {
+		constructedQuery.type = {
+			$in: Array.isArray(queryParams.types)
+				? queryParams.types
+				: [queryParams.types],
+		};
+	}
+
+	if (queryParams.stars) {
+		const starRatings = Array.isArray(queryParams.stars)
+			? queryParams.stars.map((star: string) => parseInt(star))
+			: parseInt(queryParams.stars.toString());
+
+		constructedQuery.starRating = {
+			$in: starRatings,
+		};
+	}
+
+	if (queryParams.maxPrice) {
+		constructedQuery.pricePerNight = {
+			$lte: parseInt(constructedQuery.maxPrice).toString(),
+		};
+	}
+
+	return constructedQuery;
+};
