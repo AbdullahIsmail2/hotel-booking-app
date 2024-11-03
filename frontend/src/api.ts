@@ -129,6 +129,11 @@ export type SearchParams = {
 	adultCount?: string;
 	childCount?: string;
 	page?: string;
+	facilities?: string[];
+	types?: string[];
+	stars?: string[];
+	maxPrice?: string;
+	sortOption?: string;
 };
 
 export const searchHotels = async (
@@ -137,7 +142,6 @@ export const searchHotels = async (
 	const queryParams = new URLSearchParams();
 	// URLSearchParams is a built-in JavaScript object that allows you to easily construct query string parameters for URLs.
 
-	
 	// queryParams.append(): Adds a key-value pair to the query string.
 	queryParams.append("destination", searchParams.destination || "");
 	queryParams.append("checkIn", searchParams.checkIn || "");
@@ -146,13 +150,22 @@ export const searchHotels = async (
 	queryParams.append("childCount", searchParams.childCount || "");
 	queryParams.append("page", searchParams.page || "");
 
+	queryParams.append("maxPrice", searchParams.maxPrice || "");
+	queryParams.append("sortOption", searchParams.sortOption || "");
+
+	searchParams.facilities?.forEach((facility) =>
+		queryParams.append("facilities", facility)
+	);
+	searchParams.types?.forEach((type) => queryParams.append("types", type));
+	searchParams.stars?.forEach((star) => queryParams.append("stars", star));
+
+
 	const response = await fetch(
 		`${API_BASE_URL}/api/hotels/search?${queryParams}`
 	);
 
-	// The URLSearchParams will append these query parameters so final URl would like this for example: 
+	// The URLSearchParams will append these query parameters so final URl would like this for example:
 	// APIBASEURL/api/hotels/search?destination=London&checkIn=2024-10-20&checkOut=2024-10-25&adultCount=2&childCount=1&page=1
-
 
 	if (!response.ok) {
 		throw new Error("Error fetching hotels");
