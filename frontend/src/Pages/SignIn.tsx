@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { signIn } from "../api";
 import { useAppContext } from "../Contexts/useAppContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export type SignInFormType = {
 	email: string;
@@ -11,13 +11,16 @@ export type SignInFormType = {
 
 export default function SignIn() {
 	const queryClient = useQueryClient();
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm<SignInFormType>();
-
-	const { showToast } = useAppContext();
+	
+	const { showToast } = useAppContext()
+	  ;
+	const location = useLocation()
 	const navigate = useNavigate();
 
 	const mutation = useMutation({
@@ -28,7 +31,7 @@ export default function SignIn() {
 				message: "Login Successful! ",
 				type: "SUCCESS",
 			});
-			navigate("/");
+			navigate(location.state?.from?.pathname || "/");
 		},
 		onError: (error: Error) => {
 			showToast({
