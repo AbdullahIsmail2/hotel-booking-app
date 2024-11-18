@@ -2,9 +2,24 @@ import express, { Request, Response } from "express";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
 import { check, validationResult } from "express-validator";
+import { verifyToken } from "../middleware/auth";
 
 const router = express.Router();
 
+router.get("/me", verifyToken, async (req: Request, res: Response) => {
+	const userId = req.userId;
+
+	try {
+		const user = await User.findById(userId).select("-password");
+		if (!user) {
+			return res.status(400).json({ message: "User not found" });
+		}
+		res.json(user);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Something went wrong" });
+	}
+});
 router.post(
 	"/register",
 	[
@@ -23,7 +38,7 @@ router.post(
 
 		try {
 			const user = await User.findOne({ email: req.body.email });
-			
+
 			if (user) return res.status(400).json({ message: "User already exists" });
 			// if no user with such email exists you get null back from mongo
 
@@ -45,7 +60,6 @@ router.post(
 			});
 
 			return res.status(200).json({ message: "User successfuly created" });
-		
 		} catch (err) {
 			console.log(err);
 			res.status(500).send({ message: "Something went wrong" });
