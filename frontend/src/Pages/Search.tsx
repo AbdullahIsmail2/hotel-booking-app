@@ -16,7 +16,6 @@ export default function Search() {
 	const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
 	const [sortOption, setSortOption] = useState<string>("");
 
-	console.log(search);
 
 	const searchParams = {
 		destination: search.destination,
@@ -35,6 +34,8 @@ export default function Search() {
 		queryKey: ["searchHotels", searchParams],
 		queryFn: () => searchHotels(searchParams),
 	});
+
+	console.log(hotelData, 'hoteldataaaaaaaaaaaaaaaa')
 
 	const handleStarsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const starRating = event.target.value;
