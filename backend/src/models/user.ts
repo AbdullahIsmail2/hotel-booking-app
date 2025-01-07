@@ -1,13 +1,8 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import { UserType } from "../shared/types";
 
-export type UserType = {
-	_id: string;
-	firstname: string;
-	lastName: string;
-	email: string;
-	password: string;
-};
+
 
 const userSchema = new mongoose.Schema({
 	firstName: { type: String, required: true },
@@ -23,6 +18,6 @@ userSchema.pre("save", async function (next) {
 	next();
 });
 
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model<UserType>("User", userSchema);
 
 export default User;

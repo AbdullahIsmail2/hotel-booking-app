@@ -1,8 +1,22 @@
 import { RegisterFormData } from "./Pages/Register";
 import { SignInFormType } from "./Pages/SignIn";
-import { HotelSearchResponse, HotelType } from "../../backend/src/shared/types";
+import { HotelSearchResponse, HotelType, UserType } from "../../backend/src/shared/types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+
+
+export const fetchCurrentUser = async (): Promise<UserType> => {
+	const response = await fetch(`${API_BASE_URL}/api/user/me`, {
+		credentials: "include",
+	})
+
+	if (!response.ok) {
+		throw new Error("Error fetching user");
+	}
+
+	return response.json();
+}
+
 
 // api request for registering new user
 export const postNewUser = async (newUserObject: RegisterFormData) => {
@@ -169,7 +183,7 @@ export const searchHotels = async (
   if (!response.ok) {
     throw new Error("Error fetching hotels");
   }
-
+ 
   const data = await response.json();
 
   return data;

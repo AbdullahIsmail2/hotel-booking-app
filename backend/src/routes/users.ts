@@ -20,7 +20,7 @@ router.get("/me", verifyToken, async (req: Request, res: Response) => {
 		res.status(500).json({ message: "Something went wrong" });
 	}
 });  
-router.post(
+router.post( 
 	"/register",
 	[
 		check("firstName", "First Name is Required").isAlpha(),
