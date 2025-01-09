@@ -17,7 +17,7 @@ type BookingFormData = {
 };
 
 function BookingForm({ currentUser, paymentIntent }: Props) {
-  const { handleSubmit, register } = useForm<BookingFormData>({
+  const { register } = useForm<BookingFormData>({
     defaultValues: {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
