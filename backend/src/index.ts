@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "https://hotel-booking-app-19iw.onrender.com",
     credentials: true,
   })
 );
