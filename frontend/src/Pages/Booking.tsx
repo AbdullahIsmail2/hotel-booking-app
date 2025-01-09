@@ -1,12 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
-import { fetchCurrentUser, fetchHotelById } from "../api";
+import { useEffect, useState } from "react";
+import { createPaymentIntent, fetchCurrentUser, fetchHotelById } from "../api";
 import BookingForm from "../forms/BookingForm/BookingForm";
 import { useSearchContext } from "../Contexts/SearchContext";
 import { useParams } from "react-router-dom";
 import BookingDetailsSummary from "../Components/BookingDetailsSummary";
+import { Elements } from "@stripe/react-stripe-js";
+import { useAppContext } from "../Contexts/AppContext";
 
 export default function Booking() {
+  const { stripePromise } = useAppContext();
   const search = useSearchContext();
   const { hotelId } = useParams();
 
@@ -22,6 +25,12 @@ export default function Booking() {
     }
   }, [search.checkIn, search.checkOut]);
 
+  const { data: paymentIntentData } = useQuery({
+    queryKey: ["createPaymentIntent"],
+    queryFn: () =>
+      createPaymentIntent(hotelId as string, numberOfNights.toString()),
+    enabled: !!hotelId && numberOfNights > 0,
+  });
   const { data: hotel } = useQuery({
     queryKey: ["fetchHotelByID"],
     queryFn: () => fetchHotelById(hotelId as string),
@@ -35,17 +44,35 @@ export default function Booking() {
 
   if (!hotel) return <></>;
 
+  console.log(currentUser);
+  console.log(paymentIntentData);
+
   return (
-    <div className="grid md:grid-cols-[1fr_2fr]">
-      <BookingDetailsSummary
-        checkIn={search.checkIn}
-        checkOut={search.checkOut}
-        adultCount={search.adultCount}
-        childCount={search.childCount}
-        numberOfNights={numberOfNights}
-        hotel={hotel}
-      />
-      {currentUser && <BookingForm currentUser={currentUser} />}
+    <div className="flex flex-col gap-6">
+      <h1 className="text-3xl font-bold">
+        Booking Successful!
+      </h1>
+        <BookingDetailsSummary
+          checkIn={search.checkIn}
+          checkOut={search.checkOut}
+          adultCount={search.adultCount}
+          childCount={search.childCount}
+          numberOfNights={numberOfNights}
+          hotel={hotel}
+        />
+        {/* {currentUser && paymentIntentData && (
+        <Elements
+        stripe={stripePromise}
+        options={{
+          clientSecret: paymentIntentData.clientSecret,
+          }}
+          >
+          <BookingForm
+          currentUser={currentUser}
+          paymentIntent={paymentIntentData}
+          />
+        </Elements>
+      )} */}
     </div>
   );
 }

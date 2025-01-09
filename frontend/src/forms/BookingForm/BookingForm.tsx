@@ -1,8 +1,13 @@
 import { useForm } from "react-hook-form";
-import { UserType } from "../../../../backend/src/shared/types";
+import {
+  PaymentIntentResponse,
+  UserType,
+} from "../../../../backend/src/shared/types";
+import { CardElement } from "@stripe/react-stripe-js";
 
 type Props = {
   currentUser: UserType;
+  paymentIntent: PaymentIntentResponse;
 };
 
 type BookingFormData = {
@@ -11,7 +16,7 @@ type BookingFormData = {
   email: string;
 };
 
-function BookingForm({ currentUser }: Props) {
+function BookingForm({ currentUser, paymentIntent }: Props) {
   const { handleSubmit, register } = useForm<BookingFormData>({
     defaultValues: {
       firstName: currentUser.firstName,
@@ -53,6 +58,24 @@ function BookingForm({ currentUser }: Props) {
             {...register("email")}
           />
         </label>
+      </div>
+      <div className="space-y-2">
+        <h2 className="text-xl font-semibold">Your Price Summary</h2>
+
+        <div className="bg-blue-200 p-4 rounded-md">
+          <div className="font-semibold text-lg">
+            Total Cost: £{paymentIntent.totalCost.toFixed(2)}
+          </div>
+          <div className="text-xs">Includes taxes and charges</div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-xl font-semibold"> Payment Details</h3>
+        <CardElement
+          id="payment-element"
+          className="border rounded-md p-2 text-sm"
+        />
       </div>
     </form>
   );

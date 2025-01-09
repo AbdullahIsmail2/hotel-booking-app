@@ -1,6 +1,6 @@
 import { signOut } from "../api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useAppContext } from "../Contexts/useAppContext";
+import { useAppContext } from "../Contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 
 export default function SignOutButton() {

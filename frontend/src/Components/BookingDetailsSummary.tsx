@@ -24,7 +24,7 @@ export default function BookingDetailsSummary({
         Location:
         <div className="font-bold ">{`${hotel.name}, ${hotel.city}, ${hotel.country}`}</div>
       </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between max-w-lg">
         <div>
           Check-in
           <div className="font-bold">{checkIn.toDateString()}</div>

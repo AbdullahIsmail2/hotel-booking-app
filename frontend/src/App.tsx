@@ -3,7 +3,7 @@ import Layout from "./layouts/Layout";
 import Register from "./Pages/Register";
 import SignIn from "./Pages/SignIn";
 import AddHotel from "./Pages/AddHotel";
-import { useAppContext } from "./Contexts/useAppContext";
+import { useAppContext } from "./Contexts/AppContext";
 import MyHotels from "./Pages/MyHotels";
 import EditHotel from "./Pages/EditHotel";
 import Search from "./Pages/Search";

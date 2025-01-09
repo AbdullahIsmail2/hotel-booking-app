@@ -90,8 +90,8 @@ router.post(
   async (req: Request, res: Response) => {
     const { numberOfNights } = req.body;
     const hotelId = req.params.hotelId;
-    const hotel = await Hotel.findById(hotelId);
 
+    const hotel = await Hotel.findById(hotelId);
     if (!hotel) {
       return res.status(400).json({ message: "Hotel not found" });
     }
@@ -99,7 +99,7 @@ router.post(
     const totalCost = hotel.pricePerNight * numberOfNights;
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalCost,
+      amount: totalCost * 100,
       currency: "gbp",
       metadata: {
         hotelId,
