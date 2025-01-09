@@ -28,7 +28,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: "https://hotel-booking-app-19iw.onrender.com",
+    origin: (origin, callback) => {
+      const allowedOrigins = [
+        "https://hotel-booking-app-19iw.onrender.com",
+        process.env.FRONTEND_URL,
+      ];
+
+      // Allow requests with no origin (e.g., mobile apps or Postman)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
