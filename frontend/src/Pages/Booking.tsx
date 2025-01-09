@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { createPaymentIntent, fetchCurrentUser, fetchHotelById } from "../api";
-import BookingForm from "../forms/BookingForm/BookingForm";
+// import BookingForm from "../forms/BookingForm/BookingForm";
 import { useSearchContext } from "../Contexts/SearchContext";
 import { useParams } from "react-router-dom";
 import BookingDetailsSummary from "../Components/BookingDetailsSummary";
-import { Elements } from "@stripe/react-stripe-js";
-import { useAppContext } from "../Contexts/AppContext";
+// import { Elements } from "@stripe/react-stripe-js";
+// import { useAppContext } from "../Contexts/AppContext";
 
 export default function Booking() {
-  const { stripePromise } = useAppContext();
+  // const { stripePromise } = useAppContext();
   const search = useSearchContext();
   const { hotelId } = useParams();
 
