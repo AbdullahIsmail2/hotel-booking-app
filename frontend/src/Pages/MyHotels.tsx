@@ -11,7 +11,7 @@ export default function MyHotels() {
 	});
 	if (!hotelData) return <span>You have not added any hotels</span>;
 	return (
-		<div className="space-y-5">
+		<div className="space-y-5 px-4">
 			<span className="flex justify-between">
 				<h1 className="text-3xl font-bold">My Hotels</h1>
 				<Link
@@ -22,12 +22,12 @@ export default function MyHotels() {
 				</Link>
 			</span>
 
-			<div className="grid grid-cols-1 gap-8">
+			<div className="grid grid-cols-1 gap-8 ">
 				{hotelData?.map((hotel) => (
-					<div className="flex flex-col justify-between border border-slate-300 rounded-lg p-8 gap-5">
+					<div className="flex flex-col justify-between border border-slate-300 rounded-lg p-5 sm:p-8 gap-5">
 						<h2 className="text-2xl font-bold">{hotel.name}</h2>
 						<div className="whitespace-pre-line">{hotel.description}</div>
-						<div className="grid grid-cols-5 gap-2">
+						<div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
 							<div className="border border-slate-300 rounded-sm p-3 flex items-center">
 								<BsMap className="mr-1" />
 								{hotel.city}, {hotel.country}

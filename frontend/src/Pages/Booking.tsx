@@ -48,7 +48,7 @@ export default function Booking() {
   console.log(paymentIntentData);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 px-6 sm:px-0">
       <h1 className="text-3xl font-bold">
         Booking Successful!
       </h1>

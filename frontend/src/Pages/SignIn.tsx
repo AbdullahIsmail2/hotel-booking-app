@@ -46,7 +46,7 @@ export default function SignIn() {
   });
 
   return (
-    <form className="flex flex-col gap-5" onSubmit={onSubmit}>
+    <form className="flex flex-col gap-5 px-6" onSubmit={onSubmit}>
       <h2 className="text-3xl font-bold">Sign In</h2>
 
       <label className="text-gray-700 text-sm font-bold flex-1">
@@ -80,8 +80,8 @@ export default function SignIn() {
       </label>
 
       <span className="flex items-center justify-between mt-5">
-        <span className="">
-          Not registered?{" "}
+        <span className="sm:flex sm:gap-3">
+          <p>Not registered?</p>
           <Link className="underline" to="/register">
             Create an account here
           </Link>
