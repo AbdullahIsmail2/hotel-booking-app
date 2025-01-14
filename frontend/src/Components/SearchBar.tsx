@@ -1,6 +1,6 @@
 import { MdTravelExplore } from "react-icons/md";
 import { useSearchContext } from "../Contexts/SearchContext";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
@@ -14,6 +14,21 @@ export default function SearchBar() {
 	const [checkOut, setCheckOut] = useState<Date>(search.checkOut);
 	const [adultCount, setAdultCount] = useState<number>(search.adultCount);
 	const [childCount, setChildCount] = useState<number>(search.childCount);
+
+		const [isMobile, setIsMobile] = useState(false);
+	
+		useEffect(() => {
+			const handleResize = () => {
+				setIsMobile(window.innerWidth < 560);
+			};
+			handleResize();
+	
+			window.addEventListener("resize", handleResize);
+	
+			return () => {
+				window.removeEventListener("resize", handleResize);
+			};
+		});
 
 	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault();
@@ -40,7 +55,7 @@ export default function SearchBar() {
 			<div className="flex flex-row items-center flex-1 bg-white p-2">
 				<MdTravelExplore size={25} className="mr-2" />
 				<input
-					placeholder="Where are you going?"
+				placeholder={ isMobile ? "Destination" : "Where are you going?"}
 					className="text-md w-full focus:outline-none"
 					value={destination}
 					onChange={(e) => setDestination(e.target.value)}
@@ -102,10 +117,10 @@ export default function SearchBar() {
 			</div>
 
 			<div className="flex gap-1">
-				<button className="w-2/3 bg-blue-600 text-white h-full p-2 font-bold text-lg sm:text-xl hover:bg-blue-500">
+				<button className="w-2/3 bg-blue-600 text-white h-full p-2 font-bold text-lg sm:text-xl hover:bg-blue-500" disabled={isMobile}>
 					Search
 				</button>
-        <button className="w-1/3 bg-red-600 text-white h-full p-2 font-bold text-lg sm:text-xl hover:bg-red-500">
+        <button className="w-1/3 bg-red-600 text-white h-full p-2 font-bold text-lg sm:text-xl hover:bg-red-500" disabled={isMobile}>
 					Clear
 				</button>
 			</div>
